@@ -1,8 +1,8 @@
-require 'httparty'
+require 'nokogiri'
+require 'open-uri'
 
-# base_uri ''
+doc = Nokogiri::HTML(open('http://sfbay.craigslist.org/search/roo'))
 
-query = { srchType: 'A', minAsk: 700, maxAsk: 850 }
-response = HTTParty.get("http://sfbay.craigslist.org/search/roo", query: query, :headers => {"User-Agent" => '54Footy'} )
-puts response
-
+doc.css('p.row a').each do |link|
+  puts link.content
+end
